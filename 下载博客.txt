@@ -1,0 +1,21 @@
+
+下载一个页面的所有连接文章
+#coding:utf-8
+import urllib
+def hh():
+    con = urllib.urlopen('http://blog.sina.com.cn/s/articlelist_1191258123_0_1.html').read()
+    title = con.find(r'<a title=')
+    i=0
+    while title!=-1:
+        href = con.find(r'href=', title)
+        html = con.find(r'.html', href)
+        url = con[href + 6:html + 5]
+        print url
+        filename = url[-26:]
+        print filename
+        content = urllib.urlopen(url).read()
+        fp = open(r'blog/'+filename, 'w+')
+        fp.write(content)
+        title = con.find(r'<a title=',html)
+        i+=1
+hh()

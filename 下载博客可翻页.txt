@@ -1,0 +1,30 @@
+#coding:utf-8
+import urllib
+def hhh():
+    k=1
+    i=1
+    ss = 'http://blog.sina.com.cn/s/articlelist_1191258123_0_1.html'
+    con = urllib.urlopen(ss).read()
+    title = con.find(r'<a title=')
+    while i<=3:
+        if title!=-1:
+            href = con.find(r'href=', title)
+            html = con.find(r'.html', href)
+            url = con[href + 6:html + 5]
+            print url
+            filename = url[-26:]
+            print filename
+            content = urllib.urlopen(url).read()
+            fp = open(r'blog/' + filename, 'w+')
+            fp.write(content)
+            title = con.find(r'<a title=', html)
+        else :
+            k = int(k)
+            k = k+1
+            k = str(k)
+            ss = 'http://blog.sina.com.cn/s/articlelist_1191258123_0_' + k + '.html'
+            con = urllib.urlopen(ss).read()
+            title = con.find(r'<a title=')
+            i+=1
+
+hhh()
